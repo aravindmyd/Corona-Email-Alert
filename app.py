@@ -16,7 +16,7 @@ def collect_content():
     soup = BeautifulSoup(response, "html.parser")
     table = soup.findChildren('table')
     global needed_table
-    needed_table = table[9]
+    needed_table = table[0]
     all_rows = needed_table.find_all('tr')
     for row in all_rows:
         stats_row = []
