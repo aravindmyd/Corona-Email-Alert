@@ -48,8 +48,8 @@ def collect_content():
     past_data = load()
 
     if past_data != cur_data:
-        save(cur_data)
         mail.create_mail(needed_table, "", main.name_email()[0], main.name_email()[1])
+        save(cur_data)
 
     else:
         print(f"No update at {current_time}")
