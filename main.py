@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 import main as client_app
+import mail
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
@@ -40,6 +41,7 @@ def completed():
         db.session.add(usr)
         db.session.commit()
         name_email()
+        mail.first_mail(client_app.return_table(), email,name)
         return render_template('success.html', name=name)
 
 
