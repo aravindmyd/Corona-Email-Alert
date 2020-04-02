@@ -58,10 +58,16 @@ def name_email():
     print(email)
     return email, name
 
+def check():
+    while True:
+        client_app.collect_content()
+        time.sleep(60)
 
 if __name__ == '__main__':
     db.create_all()
+    check()
     app.run(debug=True)
-    while True:    
-        client_app.collect_content()
-        time.sleep(30)
+
+
+
+
