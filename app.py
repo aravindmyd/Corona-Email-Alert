@@ -56,6 +56,7 @@ def collect_content():
 
 
 def return_table():
+    collect_content()
     return needed_table
 
 
