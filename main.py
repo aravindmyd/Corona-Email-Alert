@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 import app as client_app
 import mail
+import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
@@ -61,4 +62,6 @@ def name_email():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
-    client_app.collect_content()
+    while True:    
+        client_app.collect_content()
+        time.sleep(30)
