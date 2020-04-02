@@ -41,7 +41,7 @@ def completed():
         db.session.add(usr)
         db.session.commit()
         name_email()
-        print(app.return_table())
+        print(client_app.return_table())
         mail.first_mail(client_app.return_table(), email,name)
         return render_template('success.html', name=name)
 
