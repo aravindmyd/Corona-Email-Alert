@@ -1,16 +1,32 @@
+import datetime
+
 from bs4 import BeautifulSoup
 import requests
+import json
+import mail
+import main
 
+FILE_NAME = 'prev.json'
 heading = ["State", "CC-In", "CC-F", "Cured", "Death"]
 
 needed_table = []
+current_time = datetime.datetime.now().strftime('%d/%m/%Y %H:%M')
+
+
+def save(x):
+    with open(FILE_NAME, 'w') as f:
+        json.dump(x, f)
+
+
+def load():
+    res = {}
+    with open(FILE_NAME, 'r') as f:
+        res = json.load(f)
+    return res
 
 
 def collect_content():
     final = []
-    states = []
-    final_dic = {}
-
     URL = 'https://www.mohfw.gov.in/'
     response = requests.get(URL).content
     soup = BeautifulSoup(response, "html.parser")
@@ -26,19 +42,20 @@ def collect_content():
             for stats in spec_row:
                 ans.append(stats.string)
             final.append(ans)
-    final.pop()
     final.pop(0)
-    final.pop()
-    for i in range(len(final)):
-        states.append(final[i][1])
-        final[i].remove(final[i][0])
+    print(final)
+    cur_data = {x[0]: {current_time: x[1:]} for x in final}
+    past_data = load()
 
-    for i in range(len(final)):
-        final_dic[states[i]] = final[i]
-    #print(final)
-    return final
+    if past_data != cur_data:
+        save(cur_data)
+        mail.create_mail(needed_table, "", main.name_email()[0], main.name_email()[1])
+
+    else:
+        print(f"No update at {current_time}")
 
 
 def return_table():
-    collect_content()
     return needed_table
+
+
